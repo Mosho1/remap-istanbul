@@ -12,6 +12,7 @@ const sourceMapRegEx = /(?:\/{2}[#@]{1,2}|\/\*)\s+sourceMappingURL\s*=\s*(data:(
 export default class CoverageTransformer {
 	constructor(options) {
 		this.basePath = options.basePath;
+		this.sourceMapDir = options.sourceMapDir;
 		this.warn = options.warn || console.warn;
 
 		this.exclude = () => false;
@@ -70,7 +71,7 @@ export default class CoverageTransformer {
 			codeIsArray = false;
 		}
 		let match = sourceMapRegEx.exec(jsText);
-		let sourceMapDir = path.dirname(filePath);
+		let sourceMapDir = this.sourceMapDir || path.dirname(filePath);
 		let rawSourceMap;
 
 		if (fileCoverage.inputSourceMap) {
